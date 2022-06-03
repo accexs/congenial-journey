@@ -7,7 +7,7 @@ WORKDIR /usr/src/build
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Install pipenv and compilation dependencies
+# Install dependencies
 RUN apt-get update && apt-get install -y netcat gcc postgresql
 
 # Install python dependencies in /.venv
