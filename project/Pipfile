@@ -8,6 +8,12 @@ fastapi = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 anyio = "==3.5.0"
 pydantic = "*"
+tortoise-orm = "==0.19.1"
+asyncpg = "*"
+aerich = "*"
+pytest = "*"
+requests = "*"
+starlette = "==0.19.1"
 
 [dev-packages]
 

@@ -1,24 +1,32 @@
-from fastapi import FastAPI, Depends
+import logging
 
-from app.config import get_settings, Settings
+from fastapi import FastAPI
 
-app = FastAPI()
+from app.api import summaries
+from app.api import ping
+from app.db import init_db
 
-
-@app.get('/ping')
-async def pong(settings: Settings = Depends(get_settings)):
-    return {
-        'ping': 'pong!',
-        'environment': settings.environment,
-        'testing': settings.testing
-    }
+log = logging.getLogger('uvicorn')
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+def create_application() -> FastAPI():
+    application = FastAPI()
+
+    application.include_router(ping.router)
+    application.include_router(summaries.router, prefix="/summaries", tags=["summaries"])
+
+    return application
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+app = create_application()
+
+
+@app.on_event('startup')
+async def startup_event():
+    log.info('Starting up...')
+    init_db(app)
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    log.info("Shutting down...")
