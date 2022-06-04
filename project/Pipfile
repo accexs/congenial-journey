@@ -14,6 +14,7 @@ aerich = "*"
 pytest = "*"
 requests = "*"
 starlette = "==0.19.1"
+pytest-cov = "*"
 
 [dev-packages]
 
