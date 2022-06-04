@@ -2,18 +2,19 @@ import logging
 
 from fastapi import FastAPI
 
-from app.api import summaries
-from app.api import ping
+from app.api import ping, summaries
 from app.db import init_db
 
-log = logging.getLogger('uvicorn')
+log = logging.getLogger("uvicorn")
 
 
 def create_application() -> FastAPI():
     application = FastAPI()
 
     application.include_router(ping.router)
-    application.include_router(summaries.router, prefix="/summaries", tags=["summaries"])
+    application.include_router(
+        summaries.router, prefix="/summaries", tags=["summaries"]
+    )
 
     return application
 
@@ -21,9 +22,9 @@ def create_application() -> FastAPI():
 app = create_application()
 
 
-@app.on_event('startup')
+@app.on_event("startup")
 async def startup_event():
-    log.info('Starting up...')
+    log.info("Starting up...")
     init_db(app)
 
 
