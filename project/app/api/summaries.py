@@ -3,7 +3,8 @@ from typing import List
 from fastapi import APIRouter, HTTPException
 
 from app.api import crud
-from app.models.pydantic import SummaryPayloadSchema, SummaryResponseSchema, SummaryUpdatePayloadSchema
+from app.models.pydantic import (SummaryPayloadSchema, SummaryResponseSchema,
+                                 SummaryUpdatePayloadSchema)
 from app.models.tortoise import SummarySchema
 
 router = APIRouter()
@@ -30,7 +31,9 @@ async def read_all_summaries() -> List[SummarySchema]:
 
 
 @router.put("/{id_}/", response_model=SummarySchema, status_code=200)
-async def update_summary(id_: int, payload: SummaryUpdatePayloadSchema) -> SummarySchema:
+async def update_summary(
+    id_: int, payload: SummaryUpdatePayloadSchema
+) -> SummarySchema:
     summary = await crud.put(id_, payload)
     if not summary:
         raise HTTPException(status_code=404, detail="Summary not found")

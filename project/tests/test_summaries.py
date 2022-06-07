@@ -87,7 +87,8 @@ def test_update_summary(test_app_with_db):
     assert response.status_code == 200
 
     response_update = test_app_with_db.put(
-        f"/summaries/{summary_id}/", data=json.dumps({"url": "https://foo-update.bar", "summary": "updated"})
+        f"/summaries/{summary_id}/",
+        data=json.dumps({"url": "https://foo-update.bar", "summary": "updated"}),
     )
     assert response_update.status_code == 200
 
