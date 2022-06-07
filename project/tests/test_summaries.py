@@ -57,3 +57,54 @@ def test_read_summary_incorrect_id(test_app_with_db):
     response = test_app_with_db.get("/summaries/999/")
     assert response.status_code == 404
     assert response.json()["detail"] == "Summary not found"
+
+
+def test_remove_summary(test_app_with_db):
+    response = test_app_with_db.post(
+        "/summaries/", data=json.dumps({"url": "https://foo.bar"})
+    )
+    assert response.status_code == 201
+    summary_id = response.json()["id"]
+
+    response = test_app_with_db.delete(f"/summaries/{summary_id}/")
+    assert response.status_code == 204
+
+    response = test_app_with_db.get(f"/summaries/{summary_id}/")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Summary not found"
+
+
+def test_remove_summary_incorrect_id(test_app_with_db):
+    pass
+
+
+def test_update_summary(test_app_with_db):
+    response = test_app_with_db.post(
+        "/summaries/", data=json.dumps({"url": "https://foo.bar"})
+    )
+    summary_id = response.json()["id"]
+    response = test_app_with_db.get(f"/summaries/{summary_id}/")
+    assert response.status_code == 200
+
+    response_update = test_app_with_db.put(
+        f"/summaries/{summary_id}/", data=json.dumps({"url": "https://foo-update.bar", "summary": "updated"})
+    )
+    assert response_update.status_code == 200
+
+    response_dict = response_update.json()
+    assert response_dict["id"] == summary_id
+    assert response_dict["url"] == "https://foo-update.bar"
+    assert response_dict["summary"] == "updated"
+    assert response_dict["created_at"]
+
+
+def test_update_summary_incorrect_id(test_app_with_db):
+    pass
+
+
+def test_update_summary_invalid_json(test_app_with_db):
+    pass
+
+
+def test_update_summary_invalid_keys(test_app_with_db):
+    pass
