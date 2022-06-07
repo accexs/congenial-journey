@@ -45,4 +45,6 @@ async def update_summary(
 
 @router.delete("/{id_}/", status_code=204)
 async def delete_summary(id_: int) -> None:
-    await crud.delete(id_)
+    deleted = await crud.delete(id_)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Summary not found")

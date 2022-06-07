@@ -35,5 +35,9 @@ async def put(
     return None
 
 
-async def delete(summary_id: int) -> None:
-    await TextSummary.filter(id=summary_id).delete()
+async def delete(summary_id: int) -> bool:
+    summary = await TextSummary.filter(id=summary_id).first()
+    if summary:
+        await summary.delete()
+        return True
+    return False
