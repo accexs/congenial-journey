@@ -1,7 +1,6 @@
 from typing import List, Optional
 
-from app.models.pydantic import (SummaryPayloadSchema,
-                                 SummaryUpdatePayloadSchema)
+from app.models.pydantic import SummaryPayloadSchema, SummaryUpdatePayloadSchema
 from app.models.tortoise import TextSummary
 
 
