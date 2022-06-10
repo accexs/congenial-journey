@@ -17,6 +17,8 @@ starlette = "==0.19.1"
 pytest-cov = "*"
 flake8 = "*"
 black = "*"
+pytest-xdist = "*"
+newspaper3k = "*"
 
 [dev-packages]
 
